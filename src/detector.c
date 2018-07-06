@@ -1091,6 +1091,8 @@ void run_detector(int argc, char **argv)
 	int dont_show = find_arg(argc, argv, "-dont_show");
 	int show = find_arg(argc, argv, "-show");
 	int http_stream_port = find_int_arg(argc, argv, "-http_port", -1);
+	int rtmp_stream_fps = find_int_arg(argc, argv, "-rtmp_fps", -1);
+	int rtmp_stream_bps = find_int_arg(argc, argv, "-rtmp_bps", -1);
 	char *out_filename = find_char_arg(argc, argv, "-out_filename", 0);
 	char *outfile = find_char_arg(argc, argv, "-out", 0);
     char *prefix = find_char_arg(argc, argv, "-prefix", 0);
@@ -1150,7 +1152,7 @@ void run_detector(int argc, char **argv)
 		if(filename)
 			if (filename[strlen(filename) - 1] == 0x0d) filename[strlen(filename) - 1] = 0;
         demo(cfg, weights, thresh, hier_thresh, cam_index, filename, names, classes, frame_skip, prefix, out_filename,
-			http_stream_port, dont_show);
+			http_stream_port, dont_show, rtmp_stream_fps, rtmp_stream_bps);
     }
 	else printf(" There isn't such command: %s", argv[2]);
 }

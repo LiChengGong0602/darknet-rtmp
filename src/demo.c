@@ -25,6 +25,7 @@
 #include "opencv2/videoio/videoio_c.h"
 #endif
 #include "http_stream.h"
+#include "rtmp_stream.h"
 image get_image_from_stream(CvCapture *cap);
 
 static char **demo_names;
@@ -134,7 +135,7 @@ double get_wall_time()
 }
 
 void demo(char *cfgfile, char *weightfile, float thresh, float hier_thresh, int cam_index, const char *filename, char **names, int classes,
-	int frame_skip, char *prefix, char *out_filename, int http_stream_port, int dont_show)
+	int frame_skip, char *prefix, char *out_filename, int http_stream_port, int dont_show, int rtmp_stream_fps, int rtmp_stream_bps)
 {
     //skip = frame_skip;
     image **alphabet = load_alphabet();
@@ -211,6 +212,20 @@ void demo(char *cfgfile, char *weightfile, float thresh, float hier_thresh, int 
         cvResizeWindow("Demo", 1352, 1013);
     }
 
+    printf("detect size : w: %d, h: %d \n", det_img->width, det_img->height);
+    int inputFps = 15;
+    int inputBitrate = 2000000;
+
+    if (rtmp_stream_fps >0) {
+        inputFps = rtmp_stream_fps;
+    }
+    if (rtmp_stream_bps >0) {
+        inputBitrate = rtmp_stream_bps;
+    }
+
+    const char* output_url = "rtmp://localhost/live/darknet";
+    init_rtmp_server(det_img->width, det_img->height, inputFps, inputBitrate, "main", output_url);
+
 	CvVideoWriter* output_video_writer = NULL;    // cv::VideoWriter output_video;
 	if (out_filename && !flag_exit)
 	{
@@ -256,10 +271,15 @@ void demo(char *cfgfile, char *weightfile, float thresh, float hier_thresh, int 
 			if (http_stream_port > 0 && show_img) {
 				//int port = 8090;
 				int port = http_stream_port;
-				int timeout = 200;
+				int timeout = 200000;
 				int jpeg_quality = 30;	// 1 - 100
 				send_mjpeg(show_img, port, timeout, jpeg_quality);
 			}
+
+			if (show_img) {
+                //printf("send_rtmp_frame \n");
+				send_rtmp_frame(show_img);
+            }
 
 			// save video file
 			if (output_video_writer && show_img) {
@@ -315,7 +335,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, float hier_thresh, int 
 }
 #else
 void demo(char *cfgfile, char *weightfile, float thresh, float hier_thresh, int cam_index, const char *filename, char **names, int classes,
-	int frame_skip, char *prefix, char *out_filename, int http_stream_port, int dont_show)
+	int frame_skip, char *prefix, char *out_filename, int http_stream_port, int dont_show, int rtmp_stream_fps, int rtmp_stream_bps)
 {
     fprintf(stderr, "Demo needs OpenCV for webcam images.\n");
 }
