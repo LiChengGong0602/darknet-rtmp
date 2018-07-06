@@ -3,7 +3,7 @@
 # YOLO v2&v3 with RTMP enabled
 You only look once (YOLO) is a state-of-the-art, real-time object detection system.
 
-This repository is forked from https://github.com/AlexeyAB/darknet
+This repository is forked from `https://github.com/AlexeyAB/darknet`
 
 AlexeyAB version enable Window support and some options that I don't need to do again. 
 
@@ -35,10 +35,14 @@ Now it is another YOLO with RTMP input and output result.
 * RTMP client : [VLC](https://www.videolan.org/vlc/index.html)
 * RTMP source : [OBS](https://obsproject.com)
 
-OBS send streaming to RTMP server, server will call darknet(YOLO) to process.
+*OBS send streaming to RTMP server, server will call darknet(YOLO) to process.
 darknet(YOLO) will render to another rtmp streaming.
-VLC open the streaming.
+VLC open the streaming.*
 
+<img src='https://github.com/MarcoBay/darknet-rtmp/raw/master/graphic/vlcsnap-1.png?raw=true' width='473' alt='Demo1'>
 
+<img src='https://github.com/MarcoBay/darknet-rtmp/raw/master/graphic/vlcsnap-2.png?raw=true' width='473' alt='Demo2'>
+
+<img src='https://github.com/MarcoBay/darknet-rtmp/raw/master/graphic/vlcsnap-3.png?raw=true' width='473' alt='Demo3'>
 
 
