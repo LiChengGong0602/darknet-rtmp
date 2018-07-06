@@ -31,9 +31,11 @@ Now it is another YOLO with RTMP input and output result.
 * darknet rtmp ouput url is fixed in src/demo.c. modify "output_url" manually before build the code.
 
 #### DEMO Environment
-* RTMP server : https://github.com/arut/nginx-rtmp-module
-* RTMP client : [VLC](https://www.videolan.org/vlc/index.html)
-* RTMP source : [OBS](https://obsproject.com)
+1. RTMP server : https://github.com/arut/nginx-rtmp-module
+2. RTMP client : [VLC](https://www.videolan.org/vlc/index.html)
+3. RTMP source : [OBS](https://obsproject.com)
+    * output resolution : 852x480
+    * FPS: 15
 
 *OBS send streaming to RTMP server, server will call darknet(YOLO) to process.
 darknet(YOLO) will render to another rtmp streaming.
